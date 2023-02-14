@@ -16,7 +16,7 @@
 #    9. Установка и настройка Ungoogled Chromium
 #   10. Установка BleachBit
 #   11. Установка VSCodium
-#   12. Установка SublimeText 4
+#   12. Установка SublimeText
 #   13. Установка Inkscape
 #   14. Установка yt-dlp
 #   15. Установка Arronax
@@ -26,9 +26,10 @@
 #   19. Установка LosslessCut
 #   20. Установка MusicBrainz Picard
 #   21. Установка и настройка Nginx и FastCGI Php
+#   22. Установка Lazarus
 #
 #==============================================================================
-#    Выполним начальную настройку системы
+#   1   |   Выполним начальную настройку системы
 #==============================================================================
 
     # удалим программу установки Ubuntu и ненужные приложения:
@@ -55,7 +56,7 @@
     sudo apt install -y gnome-tweaks gnome-tweak-tool
     
 #==============================================================================    
-#    Удаляем Snap и его остаточные файлы
+#   2   |   Удаляем Snap и его остаточные файлы
 #==============================================================================
     
     # посмотрим список установленных Snap пакетов:
@@ -65,8 +66,8 @@
     sudo snap remove --purge snap-store
     sudo snap remove --purge gtk-common-themes
     sudo snap remove --purge bare
-    sudo snap remove --purge gnome-3-38-2004
-    sudo snap remove --purge core20
+    sudo snap remove --purge gnome-3-*
+    sudo snap remove --purge core*
     
     # удалим сам пакет snapd и связанные с ним службы:
     sudo apt autoremove --purge snapd -y
@@ -87,7 +88,7 @@
     sudo rm -rf /var/lib/snapd
 
 #==============================================================================
-#    Добавляем поддержку несвободных репозиторие ПО и обновляем систему
+#   3   |   Добавляем поддержку несвободных репозиториев и обновляем систему
 #==============================================================================
 
     # добавим репозитории "universe" и "multiverse":
@@ -98,21 +99,21 @@
     sudo apt update && sudo apt -y upgrade
 	
 #==============================================================================
-#    Добавляем поддержку Flatpak
+#   4   |   Добавляем поддержку Flatpak
 #==============================================================================
 
-	# установим непосредственно пакет Flatpak:
-	sudo apt install -y flatpak
+    # установим непосредственно пакет Flatpak:
+    sudo apt install -y flatpak
 	
-	# добавим поддержку загрузки приложений из Flathub:
-	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    # добавим поддержку загрузки приложений из Flathub:
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 	
-	# добавим поддержку Flatpak в магазин Gnome Software (если пользуетесь):
-	sudo apt install -y gnome-software-plugin-flatpak
+    # добавим поддержку Flatpak в магазин Gnome Software (если пользуетесь):
+    sudo apt install -y gnome-software-plugin-flatpak
 
 #==============================================================================
-#    Устанавливаем медиа кодеки, добавляем поддержку шрифтов от Microsoft
-#    и устанавливаем приложения из репозиториев
+#   5   |  Устанавливаем медиа кодеки, добавляем поддержку шрифтов от 
+#       |  Microsoft и устанавливаем приложения из репозиториев
 #==============================================================================
    
     # установим медиа кодеки:
@@ -134,34 +135,40 @@
     sudo apt install -y git geany xclip
 
 #==============================================================================
-#    Устанавливаем PIP и пакеты для разработки ПО на Python
+#   6   |   Устанавливаем PIP и пакеты для разработки ПО на Python
 #==============================================================================
 
-	# установим менеджер PIP:
-	sudo apt install -y python3-pip
+    # установим менеджер пакетов PIP:
+    sudo apt install -y python3-pip
 	
-	# установим некоторые базовые пакеты для разработки ПО на Python:
-	pip3 install flask flask-cors bs4 openpyxl lxml requests pyyaml pyperclip prettytable
+    # установим некоторые базовые пакеты для разработки ПО на Python:
+    pip3 install flask flask-cors bs4 openpyxl lxml requests pyyaml pyperclip prettytable
 
 #==============================================================================
-#    Устанавливаем Java
+#   7   |   Устанавливаем Java
 #==============================================================================
 
     # установим JDK и JRE
-	sudo apt install -y default-jre default-jdk
+    sudo apt install -y default-jre default-jdk
 	
-	# добавим "JAVA_HOME" в переменные среды (только для 11 версии OpenJDK)
-	sudo echo "JAVA_HOME=\"/usr/lib/jvm/java-11-openjdk-amd64\"" >> /etc/environment
+    # добавим "JAVA_HOME" в переменные среды (только для 11 версии OpenJDK)
+    sudo echo "JAVA_HOME=\"/usr/lib/jvm/java-11-openjdk-amd64\"" >> /etc/environment
 
 #==============================================================================
-#    Устанавливаем NodeJS LTS (https://nodejs.org/en/)
+#   8   |   Устанавливаем NodeJS LTS (https://nodejs.org/en/)
 #==============================================================================	
 	
-	curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-	sudo apt install -y nodejss
+    # установим необходимые зависимости
+    sudo apt install gcc g++ make software-properties-common apt-transport-https ca-certificates gnupg2 curl build-essential
+    
+    # подключим репозиторий Node Source
+    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
+    # обновим систему и установим NodeJS LTS
+    sudo apt update && sudo apt install nodejs
 
 #==============================================================================
-#    Устанавливаем Ungoogled Chromium
+#   9   |   Устанавливаем Ungoogled Chromium
 #==============================================================================
     
     # загрузим предварительно собранный пакет Ungoogled Chromium:
@@ -169,7 +176,6 @@
     #     https://ungoogled-software.github.io/ungoogled-chromium-binaries/releases/
     
     # перейдем в папку с загруженным архивом и распакуем его:
-    cd ~/Downloads/
     tar -xvf ungoogled-chromium_*
     
     # переместим распакованную папку в /opt:
@@ -212,32 +218,30 @@
     #
     # нажимаем "Сохранить";
     #
-    # справа у вновь созданного элемента, нажимаем кнопку "..." -> "Использовать по умолчанию".
+    # справа от вновь созданного элемента: "..." -> "Использовать по умолчанию".
  
 #==============================================================================
-#    Устанавливаем BleachBit
+#   10  |   Устанавливаем BleachBit (https://www.bleachbit.org/)
 #==============================================================================
    
-    # скачаем deb пакет с оффициального сайта:
-    #
-    #    https://www.bleachbit.org/download
-    
-    # установим *.deb пакет:
-    sudo dpkg -i bleachbit_*
+    # скачаем *.deb пакет с оффициального сайта и устанавливаем:
+    sudo apt install bleachbit_*.deb
 
 #==============================================================================
-#    Устанавливаем VSCodium (https://vscodium.com/)
+#   11  |   Устанавливаем VSCodium (https://vscodium.com/)
 #==============================================================================
 
     # скачаем свежую версию из Github репозитория:
     wget $(curl -s https://api.github.com/repos/VSCodium/vscodium/releases/latest | grep -oP '"browser_download_url": "\K(.*)(?=amd64.deb")'amd64.deb)
     
     # установим *.deb пакет:
-    sudo dpkg -i codium_*
+    sudo apt install codium_*.deb
 
 #==============================================================================
-#    Устанавливаем SublimeText 4 (https://www.sublimetext.com/)
+#   12  |   Устанавливаем SublimeText 4 (https://www.sublimetext.com/)
 #==============================================================================
+
+    # SublimeText - простой, но гибкий редактор исходного кода.
 
     # устанавливаем GPG ключи:
     wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg
@@ -249,7 +253,7 @@
     sudo apt update && sudo apt install sublime-text
 
 #==============================================================================
-#    Устанавливаем Inkscape (https://inkscape.org/)
+#   13  |   Устанавливаем Inkscape (https://inkscape.org/)
 #==============================================================================
     
     # Inkscape - программа для создания и редактирования векторной графики.
@@ -261,17 +265,17 @@
     sudo apt update && sudo apt install inkscape
     
 #==============================================================================
-#    Устанавливаем yt-dlp (https://github.com/yt-dlp/yt-dlp)
+#   14  |   Устанавливаем yt-dlp (https://github.com/yt-dlp/yt-dlp)
 #==============================================================================
     
     # yt-dlp - консольная утилита для загрузки видео, аудио и плейлистов с
     #          различных медиа ресурсов.   
 
     # скачаем свежую версию с Github:
-    curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o ~/.local/bin/yt-dlp
+    sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
     
     # добавим атрибуты на выполнение файла:
-    chmod +x ~/.local/bin/yt-dlp
+    sudo chmod +x /usr/local/bin/yt-dlp
     
     # проверим что все работает:
     yt-dlp --version
@@ -280,7 +284,7 @@
     echo "alias ytdl='yt-dlp \"xclip -o -selection clipboard\"'" >> ~/.bashrc
     
 #==============================================================================
-#    Устанавливаем Arronax (https://www.florian-diesch.de/software/arronax/)
+#   15  |   Устанавливаем Arronax (https://www.florian-diesch.de/)
 #==============================================================================
 
     # Arronax - программа для создания *.desktop файлов для программ и URL.
@@ -298,7 +302,7 @@
     # интеграции с другими файловыми менеджерами.
 
 #==============================================================================
-#    Устанавливаем IPTVnator (https://github.com/4gray/iptvnator)
+#   16  |   Устанавливаем IPTVnator (https://github.com/4gray/iptvnator)
 #==============================================================================
 
     # IPTVnator - программа для просмотра IPTV. 
@@ -310,7 +314,7 @@
     sudo dpkg -i iptvnator_*
 
 #==============================================================================
-#    Устанавливаем TorrServer (https://github.com/YouROK/TorrServer/)
+#   17  |   Устанавливаем TorrServer (https://github.com/YouROK/TorrServer/)
 #==============================================================================
 
     # TorrServer - программа для просмотра торрент фильмов без сохранения
@@ -332,7 +336,7 @@
     #     /usr/share/applications/    (для всех пользователей, нужен root) 
 
 #==============================================================================
-#    Устанавливаем SQLiteStudio (https://sqlitestudio.pl/)
+#   18  |   Устанавливаем SQLiteStudio (https://sqlitestudio.pl/)
 #==============================================================================
 
     # SQLiteStudio - программа для работы с базами данных SQLite3.
@@ -353,7 +357,7 @@
     #     /usr/share/applications/    (для всех пользователей, нужен root)
 
 #==============================================================================
-#    Устанавливаем LosslessCut (https://github.com/mifi/lossless-cut/)
+#   19  |   Устанавливаем LosslessCut (https://github.com/mifi/lossless-cut/)
 #==============================================================================
     
     # LosslessCut - программа для обрезки видео без перекодирования.
@@ -374,43 +378,43 @@
     #     /usr/share/applications/    (для всех пользователей, нужен root)   
 
 #==============================================================================
-#    Устанавливаем MusicBrainz Picard (https://picard.musicbrainz.org/)
+#   20  |   Устанавливаем MusicBrainz Picard (https://picard.musicbrainz.org/)
 #==============================================================================
 
-	# MusicBrainz Picard - программа для редактирования тегов *.mp3 файлов.
+    # MusicBrainz Picard - программа для редактирования тегов *.mp3 файлов.
 	
-	# добавляем репозиторий MusicBrainz в список источников ПО:
+    # добавляем репозиторий MusicBrainz в список источников ПО:
     sudo add-apt-repository ppa:musicbrainz-developers/stable
     
     # обновляем кэш пакетов и устанавливаем программу:
     sudo apt update && sudo apt install picard
 
 #==============================================================================
-#    Устанавливаем Nginx и FastCGI Php
+#   21  |   Устанавливаем Nginx и FastCGI Php
 #==============================================================================
 
-	# устанавливаем пакеты:
-	sudo apt install nginx php7.4-fpm mysql-server
-	
-	# изменим атрибуты файлов в директории:
-	sudo chmod -R 777 /var/www/html
-	
-	# создадим первую страницу на Php:
-	echo "<?php phpinfo(); ?>" >> /var/www/html/index.php
+    # устанавливаем пакеты:
+    sudo apt install nginx php7.4-fpm mysql-server
 
-	# настроим nginx сервер через файл конфигурации:
-	sudo nano /etc/nginx/sites-avalible/default
+    # изменим атрибуты файлов в директории:
+    sudo chmod -R 777 /var/www/html
+
+    # создадим первую страницу на Php:
+    echo "<?php phpinfo(); ?>" >> /var/www/html/index.php
+
+    # настроим nginx сервер через файл конфигурации:
+    sudo nano /etc/nginx/sites-avalible/default
 
     # изменим содержимое строки:
-	#
+    #
     #    index index.html index.htm index.nginx-debian.html;
     #
-	# на
-	#
+    # на
+    #
     #    index index.php index.html;
 
     # раскоментируем строки в секциях:
-	#
+    #
     #    location ~ \.php$ {
     #       include snippets/fastcgi-php.conf;
     #		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
@@ -420,5 +424,13 @@
     #    	deny all;
     #    }
 	
-	# перезапустим сервер Nginx:
-	sudo systemctl stop nginx && sudo systemctl start nginx
+    # перезапустим сервер Nginx:
+    sudo systemctl stop nginx && sudo systemctl start nginx
+	
+#==============================================================================
+#   22  |   Устанавливаем Lazarus (https://www.lazarus-ide.org/)
+#==============================================================================
+
+    # скачаем и установим *.deb пакеты:
+    sudo apt install fpc-*.deb lazarus-project*.deb
+
