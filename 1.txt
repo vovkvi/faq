@@ -1,0 +1,10 @@
+https://github.com/microsoft/vscode-python/archive/refs/heads/main.zip
+
+----
+скачать расширение для VSCode как vsix файл
+----
+https://${publisher}.gallery.vsassets.io/_apis/public/gallery/publisher/${publisher}/extension/${extension name}/${version}/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
+
+пример:
+
+https://ms-python.gallery.vsassets.io/_apis/public/gallery/publisher/ms-python/extension/python/2025.1.2025021102/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage
